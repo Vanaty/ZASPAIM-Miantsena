@@ -159,7 +159,7 @@ export default function EmployeeList() {
       <View style={styles.header}>
         <View style={styles.headerTopRow}>
           <Text style={[styles.title, { color: theme.text }]}> 
-            Asa: {filteredEmployees.length}
+            Asa: {`${filteredEmployees.length}`.padStart(2, '0')}
           </Text>
 
           <TouchableOpacity
@@ -356,5 +356,6 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     fontWeight: '500',
+    textAlign: 'center',
   },
 });

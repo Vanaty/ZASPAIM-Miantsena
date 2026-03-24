@@ -20,6 +20,7 @@ interface FilterChipsProps {
 }
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
 
 export default function FilterChips({
   categories,
@@ -39,12 +40,14 @@ export default function FilterChips({
     label, 
     isSelected, 
     onPress, 
-    disabled = false 
+    disabled = false,
+    iconName,
   }: {
     label: string;
     isSelected: boolean;
     onPress: () => void;
     disabled?: boolean;
+    iconName?: IoniconName;
   }) => {
     const scale = useSharedValue(1);
 
@@ -74,6 +77,14 @@ export default function FilterChips({
         onPress={handlePress}
         disabled={disabled}
       >
+        {iconName && (
+          <Ionicons
+            name={iconName}
+            size={13}
+            color={isSelected ? theme.chipSelectedText : theme.chipText}
+            style={styles.chipIcon}
+          />
+        )}
         <Text
           style={[
             styles.chipText,
@@ -93,14 +104,18 @@ export default function FilterChips({
     <View style={styles.container}>
       {/* Categories */}
       <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: theme.text }]}>Asa</Text>
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipRow}>
+        <View style={styles.sectionHeader}>
+          <Ionicons name="briefcase-outline" size={14} color={theme.textSecondary} />
+          <Text style={[styles.sectionTitle, { color: theme.text }]}>Asa</Text>
+        </View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipRow}>
           {categories.map((category) => (
             <ChipComponent
               key={category.name}
               label={category.name}
               isSelected={selectedCategory === category.name}
               onPress={() => onCategoryChange(selectedCategory === category.name ? '' : category.name)}
+              iconName="pricetag-outline"
             />
           ))}
         </ScrollView>
@@ -109,7 +124,10 @@ export default function FilterChips({
       {/* Subcategories */}
       {subcategories.length > 0 && (
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.text }]}>Sokajy</Text>
+          <View style={styles.sectionHeader}>
+            <Ionicons name="layers-outline" size={14} color={theme.textSecondary} />
+            <Text style={[styles.sectionTitle, { color: theme.text }]}>Sokajy</Text>
+          </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipRow}>
             {subcategories.map((subcategory) => (
               <ChipComponent
@@ -117,6 +135,7 @@ export default function FilterChips({
                 label={subcategory}
                 isSelected={selectedSubcategory === subcategory}
                 onPress={() => onSubcategoryChange(selectedSubcategory === subcategory ? '' : subcategory)}
+                iconName="albums-outline"
               />
             ))}
           </ScrollView>
@@ -125,7 +144,10 @@ export default function FilterChips({
 
       {/* Locations */}
       <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: theme.text }]}>Toerana</Text>
+        <View style={styles.sectionHeader}>
+          <Ionicons name="location-outline" size={14} color={theme.textSecondary} />
+          <Text style={[styles.sectionTitle, { color: theme.text }]}>Toerana</Text>
+        </View>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipRow}>
           {locations.map((location) => (
             <ChipComponent
@@ -133,6 +155,7 @@ export default function FilterChips({
               label={location}
               isSelected={selectedLocation === location}
               onPress={() => onLocationChange(selectedLocation === location ? '' : location)}
+              iconName="pin-outline"
             />
           ))}
         </ScrollView>
@@ -157,11 +180,16 @@ const styles = StyleSheet.create({
   section: {
     marginBottom: 12,
   },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginLeft: 4,
+    marginBottom: 5,
+  },
   sectionTitle: {
     fontSize: 14,
     fontWeight: '600',
-    marginBottom: 5,
-    marginLeft: 4,
   },
   chipRow: {
     flexDirection: 'row',
@@ -174,6 +202,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     elevation: 1,
     boxShadow: '0px 1px 1px rgba(0, 0, 0, 0.1)',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  chipIcon: {
+    marginRight: 6,
   },
   chipText: {
     fontSize: 14,
