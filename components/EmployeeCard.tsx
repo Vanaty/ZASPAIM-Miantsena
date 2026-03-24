@@ -119,7 +119,7 @@ export default function EmployeeCard({ employee, theme, delay, showFilters, onFi
 
             <View style={[styles.jobBadge, { backgroundColor: theme.primaryLight }]}> 
               <Ionicons name="briefcase" size={11} color={theme.primary} />
-              <Text style={[styles.job, { color: theme.primary }]}>
+              <Text style={[styles.job, { color: theme.chipText }]}>
                 {employee.job}
               </Text>
             </View>
